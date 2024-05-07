@@ -1,0 +1,47 @@
+body {
+  margin: 0;
+}
+
+#root {
+}
+
+.header {
+  color: white;
+  font-size: 30px;
+}
+
+.logo {
+  height: 1.5em;
+  animation: logo-spin infinite 20s linear;
+  margin-right: 10px;
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.layout {
+  height: 100vh;
+}
+
+.content {
+  padding: 10px;
+}
+
+.sider {
+  padding: 8px;
+}
+
+.form {
+}
+
+.fork {
+  position: absolute;
+  top: 0;
+  right: 0;
+}

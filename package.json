@@ -1,17 +1,17 @@
 {
-  "name": "react-grid-area",
+  "name": "react-easy-grid",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "files": [
     "dist"
   ],
-  "main": "./dist/react-grid-area.umd.cjs",
-  "module": "./dist/react-grid-area.js",
+  "main": "./dist/react-easy-grid.umd.cjs",
+  "module": "./dist/react-easy-grid.js",
   "exports": {
     ".": {
-      "import": "./dist/react-grid-area.js",
-      "require": "./dist/react-grid-area.umd.cjs"
+      "import": "./dist/react-easy-grid.js",
+      "require": "./dist/react-easy-grid.umd.cjs"
     }
   },
   "scripts": {
@@ -21,6 +21,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "antd": "^5.16.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

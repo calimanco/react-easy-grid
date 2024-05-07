@@ -8,10 +8,10 @@ export default defineConfig({
   build: {
     lib: {
       // Could also be a dictionary or array of multiple entry points
-      entry: resolve(__dirname, 'src/lib/main.ts'),
-      name: 'react-grid-area',
+      entry: resolve(__dirname, 'lib/main.ts'),
+      name: 'react-easy-grid',
       // the proper extensions will be added
-      fileName: 'react-grid-area',
+      fileName: 'react-easy-grid',
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
