@@ -1,31 +1,33 @@
-import GridItem, {IComponentProps as GridItemProps} from './GridItem'
-import React, {useMemo} from "react";
+import GridItem, { IComponentProps as GridItemProps } from './GridItem'
+import React, { useMemo } from 'react'
+import styles from './styles.module.scss'
 
 interface IComponentProps extends GridItemProps {
-  direction?: 'vertical' | 'horizontal',
-  borderStyle?: React.CSSProperties['border'];
+  direction?: 'vertical' | 'horizontal'
+  lineColor?: string
+  lineStyle?: string
+  lineWidth?: string
 }
 
-function GridGutter({direction = 'horizontal', borderStyle, style, ...leftProps}: IComponentProps) {
-
+function GridGutter({ direction = 'horizontal', lineColor = 'gray', lineStyle = 'solid', lineWidth = '1px', ...leftProps }: IComponentProps) {
   const computedStyle = useMemo<React.CSSProperties>(() => {
-    return direction === 'horizontal' ? {
-      width: '100%',
-      borderBottom: borderStyle ?? '1px solid gray'
-    }:{
-      height: '100%',
-      borderRight: borderStyle ?? '1px solid gray'
+    return {
+      width: direction === 'horizontal' ? '100%' : undefined,
+      height: direction === 'vertical' ? '100%' : undefined,
+      borderWidth: lineWidth,
+      borderColor: lineColor,
+      borderStyle: lineStyle,
     }
-  }, [direction, borderStyle])
+  }, [direction, lineColor, lineStyle, lineWidth])
 
-  return <GridItem style={{
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    ...style
-  }} {...leftProps}>
-    <div style={computedStyle} />
-  </GridItem>
+  return (
+    <GridItem
+      className={styles.gridGutter}
+      {...leftProps}
+    >
+      <div style={computedStyle} />
+    </GridItem>
+  )
 }
 
-export default GridGutter;
+export default GridGutter

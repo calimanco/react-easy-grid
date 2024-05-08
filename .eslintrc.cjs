@@ -3,6 +3,7 @@ module.exports = {
   env: { browser: true, es2020: true },
   extends: [
     'eslint:recommended',
+    'plugin:@stylistic/recommended-extends',
     'plugin:@typescript-eslint/recommended-type-checked',
     'plugin:@typescript-eslint/stylistic-type-checked',
     'plugin:react/recommended',
@@ -11,7 +12,7 @@ module.exports = {
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh'],
+  plugins: ['@stylistic', 'react-refresh'],
   rules: {
     'react-refresh/only-export-components': [
       'warn',
@@ -26,4 +27,10 @@ module.exports = {
     project: ['./tsconfig.json', './tsconfig.node.json'],
     tsconfigRootDir: __dirname,
   },
+  overrides: [
+    {
+      files: ['**/*.js'],
+      extends: ['plugin:@typescript-eslint/disable-type-checked'],
+    },
+  ],
 }

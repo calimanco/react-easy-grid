@@ -1,7 +1,7 @@
 import React from 'react'
 
 export interface IItemReadyResp {
-  start: number[];
+  start: number[]
   end?: number[] | null
 }
 

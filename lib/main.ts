@@ -5,5 +5,5 @@ import GridGutter from './GridGutter'
 export {
   GridContainer,
   GridItem,
-  GridGutter
+  GridGutter,
 }
