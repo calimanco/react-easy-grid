@@ -119,10 +119,10 @@ function ControllerForm({ form }: IComponentProps) {
                                 <InputNumber min={1} />
                               </Form.Item>
                               <Form.Item name={[field.name, 'endR']} label="结束行">
-                                <InputNumber />
+                                <InputNumber min={1} />
                               </Form.Item>
                               <Form.Item name={[field.name, 'endC']} label="结束列">
-                                <InputNumber />
+                                <InputNumber min={1} />
                               </Form.Item>
                             </>
                           )}
@@ -171,10 +171,10 @@ function ControllerForm({ form }: IComponentProps) {
                                 <InputNumber min={1} />
                               </Form.Item>
                               <Form.Item name={[field.name, 'endR']} label="结束行">
-                                <InputNumber />
+                                <InputNumber min={1} />
                               </Form.Item>
                               <Form.Item name={[field.name, 'endC']} label="结束列">
-                                <InputNumber />
+                                <InputNumber min={1} />
                               </Form.Item>
                             </>
                           )}
