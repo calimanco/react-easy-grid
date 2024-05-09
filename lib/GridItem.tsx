@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo } from 'react'
+import React, { useContext, useEffect, useMemo, useRef } from 'react'
 import { GridReg } from './utils'
 import { GridContext } from './context'
 import styles from './styles.module.scss'
@@ -13,6 +13,7 @@ export interface IComponentProps {
 
 function GridItem({ start, end, style, className, children }: IComponentProps) {
   const { itemStyle: contextStyle, onItemReady } = useContext(GridContext)
+  const itemRef = useRef(null)
 
   const startP = useMemo(() => {
     const res = GridReg.exec(start)?.slice(1, 3)
@@ -52,10 +53,21 @@ function GridItem({ start, end, style, className, children }: IComponentProps) {
     onItemReady?.({
       start: startP,
       end: endP,
+      ref: itemRef,
     })
   }, [endP, onItemReady, startP])
 
-  return <div className={`${styles.gridItem} ${className ?? ''}`} style={itemStyle}>{children}</div>
+  useEffect(() => {
+    return () => {
+      onItemReady?.({
+        start: null,
+        end: null,
+        ref: itemRef,
+      })
+    }
+  }, [onItemReady])
+
+  return <div className={`${styles.gridItem} ${className ?? ''}`} style={itemStyle} ref={itemRef}>{children}</div>
 }
 
 export default GridItem

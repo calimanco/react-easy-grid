@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo, useState } from 'react'
-import { GridContext, IGridContext, IItemReadyResp } from './context'
+import React, { useCallback, useMemo, useState, useRef } from 'react'
+import { GridContext, IGridContext, IGridItem } from './context'
 import styles from './styles.module.scss'
 
 export interface IComponentProps {
@@ -15,27 +15,38 @@ export interface IComponentProps {
 }
 
 function GridContainer({ row, col, bordered, showAxios, borderStyle, style, itemStyle = {}, className, children }: IComponentProps) {
+  const itemsRef = useRef<IGridItem[]>([])
   const [maxRow, setMaxRow] = useState(0)
   const [maxCol, setMaxCol] = useState(0)
 
-  const handleItemReady = useCallback((res: IItemReadyResp) => {
-    const { start, end } = res
-    setMaxRow((prevState) => {
-      let max = prevState
-      max = Math.max(max, start[0])
-      if (end) {
-        max = Math.max(max, end[0])
+  const handleItemReady = useCallback((res: IGridItem) => {
+    const idx = itemsRef.current.findIndex(i => i.ref?.current === res.ref?.current)
+    if (idx === -1) {
+      itemsRef.current.push(res)
+    }
+    else {
+      if (res.start) {
+        itemsRef.current[idx] = res
       }
-      return max
-    })
-    setMaxCol((prevState) => {
-      let max = prevState
-      max = Math.max(max, start[1])
-      if (end) {
-        max = Math.max(max, end[1])
+      else {
+        itemsRef.current.splice(idx, 1)
       }
-      return max
-    })
+    }
+    let maxRow = 0
+    let maxCol = 0
+    for (const item of itemsRef.current) {
+      const { start, end } = item
+      if (start) {
+        maxRow = Math.max(maxRow, start[0])
+        maxCol = Math.max(maxCol, start[1])
+      }
+      if (end) {
+        maxRow = Math.max(maxRow, end[0])
+        maxCol = Math.max(maxCol, end[1])
+      }
+    }
+    setMaxRow(maxRow)
+    setMaxCol(maxCol)
   }, [])
 
   const computedGrid = useMemo(() => {
@@ -137,7 +148,7 @@ function GridContainer({ row, col, bordered, showAxios, borderStyle, style, item
   return (
     <GridContext.Provider value={context}>
       <div style={gridStyle} className={className}>
-        {renderPlaceholder(computedGrid.row, computedGrid.col)}
+        {bordered && renderPlaceholder(computedGrid.row, computedGrid.col)}
         {showAxios && renderAxios(computedGrid.row, computedGrid.col)}
         {children}
       </div>
