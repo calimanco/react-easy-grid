@@ -1,18 +1,18 @@
-.gridPlaceholder {
-}
-
-.gridAxios {
+.gridAxiosItem {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: center
+  justify-content: center;
+  overflow: visible;
 }
 
 .gridItem {
   overflow: auto;
 }
 
-.gridGutter {
+.gridGutterItem {
   display: flex;
   align-items: center;
-  justify-content: center
+  justify-content: center;
+  overflow: hidden;
 }

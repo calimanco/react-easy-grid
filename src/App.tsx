@@ -3,6 +3,7 @@ import styles from './App.module.css'
 import reactLogo from './assets/react.svg'
 import { GridContainer, GridItem, GridGutter } from '../lib/main'
 import ControllerForm from './ControllerForm'
+import { useMemo } from 'react'
 
 type Color = ColorPickerProps['value']
 
@@ -12,10 +13,13 @@ interface IItem {
   color: Color
   endR?: number
   endC?: number
+  spanR?: number
+  spanC?: number
 }
 
 interface IGutter extends IItem {
   direction: 'vertical' | 'horizontal'
+  span?: number
   lineWidth?: number
 }
 
@@ -23,10 +27,22 @@ function App() {
   const [form] = Form.useForm()
   const formWidth = Form.useWatch('width', form)
   const formHeight = Form.useWatch('height', form)
+  const formRow = Form.useWatch('row', form)
+  const formCol = Form.useWatch('col', form)
   const formBordered = Form.useWatch('bordered', form)
   const formShowAxios = Form.useWatch('showAxios', form)
   const formItems: IItem[] = Form.useWatch('items', form)
   const formGutters: IGutter[] = Form.useWatch('gutters', form)
+
+  console.log(formItems)
+
+  const gridContainerStyle = useMemo(() => {
+    return { width: `${formWidth}%`, height: `${formHeight}%`, background: '#fff' }
+  }, [formWidth, formHeight])
+
+  const gridItemStyle = useMemo(() => {
+    return { color: 'white', fontSize: '30px' }
+  }, [])
 
   return (
     <Layout className={styles.layout}>
@@ -51,20 +67,23 @@ function App() {
       </Layout.Sider>
       <Layout.Content className={styles.content}>
         <GridContainer
+          row={formRow}
+          col={formCol}
           bordered={formBordered}
           showAxios={formShowAxios}
-          style={{ width: `${formWidth}%`, height: `${formHeight}%`, background: '#fff' }}
-          itemStyle={{ color: 'white', fontSize: '30px' }}
+          style={gridContainerStyle}
+          itemStyle={gridItemStyle}
         >
           {formGutters?.map((item, index) => {
             return (
               <GridGutter
                 key={index}
                 start={`r${item.startR}c${item.startC}`}
-                end={`r${item.endR}c${item.endC}`}
+                end={(item.endC && item.endR) ? [item.endC, item.endR] : null}
+                span={[item.spanR ?? 1, item.spanC ?? 1]}
+                direction={item.direction}
                 lineColor={typeof item.color === 'string' ? item.color : item?.color?.toHexString()}
                 lineWidth={item.lineWidth ? `${item.lineWidth}px` : undefined}
-                direction={item.direction}
               />
             )
           })}
@@ -73,7 +92,8 @@ function App() {
               <GridItem
                 key={index}
                 start={`r${item.startR}c${item.startC}`}
-                end={`r${item.endR}c${item.endC}`}
+                end={(item.endR && item.endC) ? [item.endR, item.endC] : null}
+                span={[item.spanR ?? 1, item.spanC ?? 1]}
               >
                 <div
                   className={styles.item}

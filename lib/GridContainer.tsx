@@ -14,6 +14,19 @@ export interface IComponentProps {
   children?: React.ReactNode
 }
 
+/**
+ * 网格容器
+ * @param {object} props
+ * @param props.row 行
+ * @param props.col 列
+ * @param props.bordered 显示边框
+ * @param props.showAxios 显示坐标
+ * @param props.borderStyle 边框样式
+ * @param props.style 样式
+ * @param props.itemStyle 子项样式
+ * @param props.className 类名
+ * @param props.children
+ */
 function GridContainer({ row, col, bordered, showAxios, borderStyle, style, itemStyle = {}, className, children }: IComponentProps) {
   const itemsRef = useRef<IGridItem[]>([])
   const [maxRow, setMaxRow] = useState(0)
@@ -70,6 +83,8 @@ function GridContainer({ row, col, bordered, showAxios, borderStyle, style, item
       borderTop: computedBorderStyle,
       borderLeft: computedBorderStyle,
       display: 'grid',
+      gridAutoRows: 0,
+      gridAutoColumns: 0,
       gridTemplateColumns: `repeat(${computedGrid.col}, 1fr)`,
       gridTemplateRows: `repeat(${computedGrid.row}, 1fr)`,
       ...style,
@@ -83,7 +98,6 @@ function GridContainer({ row, col, bordered, showAxios, borderStyle, style, item
         const gridArea = `${i}/${j}`
         result.push(
           <div
-            className={styles.gridPlaceholder}
             key={`placeholder-${gridArea}`}
             style={{
               boxSizing: 'border-box',
@@ -105,14 +119,14 @@ function GridContainer({ row, col, bordered, showAxios, borderStyle, style, item
       result.push(
         <div
           key={`axios-y-${gridArea}`}
-          className={styles.gridAxios}
+          className={styles.gridAxiosItem}
           style={{
             gridArea,
           }}
         >
           <span style={{
-            position: 'relative',
-            right: '50%',
+            position: 'absolute',
+            right: '103%',
             zIndex: 999,
           }}
           >
@@ -126,14 +140,14 @@ function GridContainer({ row, col, bordered, showAxios, borderStyle, style, item
       result.push(
         <div
           key={`axios-x-${gridArea}`}
-          className={styles.gridAxios}
+          className={styles.gridAxiosItem}
           style={{
             gridArea,
           }}
         >
           <span style={{
-            position: 'relative',
-            bottom: '50%',
+            position: 'absolute',
+            bottom: '100%',
             zIndex: 999,
           }}
           >

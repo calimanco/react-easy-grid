@@ -1,32 +1,67 @@
 import React, { useContext, useEffect, useMemo, useRef } from 'react'
-import { GridReg } from './utils'
+import { transformGridStrToArray } from './utils'
 import { GridContext } from './context'
 import styles from './styles.module.scss'
 
 export interface IComponentProps {
-  start: string
-  end?: string
+  start: string | number | number[]
+  end?: string | number | number[] | null
+  span?: number | number[]
   style?: React.CSSProperties
   className?: string
   children?: React.ReactNode
 }
 
-function GridItem({ start, end, style, className, children }: IComponentProps) {
+/**
+ * 网格基础子项
+ * @param {object} props
+ * @param props.start 开始坐标
+ * @param props.end 结束坐标
+ * @param props.span 跨区数
+ * @param props.style 样式
+ * @param props.className 类名
+ * @param props.children
+ */
+function GridItem({ start, end, span = 1, style, className, children }: IComponentProps) {
   const { itemStyle: contextStyle, onItemReady } = useContext(GridContext)
   const itemRef = useRef(null)
 
   const startP = useMemo(() => {
-    const res = GridReg.exec(start)?.slice(1, 3)
-    return res?.map(i => Number(i)) ?? null
+    if (typeof start === 'string') {
+      return transformGridStrToArray(start)
+    }
+    if (typeof start === 'number' || (Array.isArray(start) && start?.length === 1)) {
+      return [Number(start), Number(start)]
+    }
+    return [Number(start?.[0]) || 1, Number(start?.[1]) || 1]
   }, [start])
 
   const endP = useMemo(() => {
-    if (!end) {
+    if (!!end || !!(Array.isArray(end) && end[0])) {
+      if (typeof end === 'string') {
+        return transformGridStrToArray(end)
+      }
+      if (typeof end === 'number' || (Array.isArray(end) && end?.length === 1)) {
+        return [Number(end), Number(end)]
+      }
+      return [Number(end?.[0]) || 1, Number(end?.[1]) || 1]
+    }
+    if (!startP) {
       return null
     }
-    const res = GridReg.exec(end)?.slice(1, 3)
-    return res?.map(i => Number(i)) ?? null
-  }, [end])
+    const res = [...startP]
+    if (Array.isArray(span)) {
+      const tmp = span.map(i => Number(i))
+      res[0] += (tmp?.[0] || 1) - 1
+      res[1] += (tmp?.[1] || 1) - 1
+    }
+    else {
+      res[0] += (span || 1) - 1
+      res[1] += (span || 1) - 1
+    }
+
+    return res
+  }, [end, span, startP])
 
   const itemStyle = useMemo<React.CSSProperties>(() => {
     const result = []

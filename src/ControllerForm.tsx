@@ -1,22 +1,11 @@
 import React, { useMemo } from 'react'
 import styles from './App.module.css'
-import { Button, Card, ColorPicker, Select, Flex, Form, InputNumber, Popover, Slider, Switch, type FormInstance } from 'antd'
-import { CloseOutlined } from '@ant-design/icons'
+import { Button, Card, Form, InputNumber, Slider, Switch, type FormInstance } from 'antd'
+import ControllerFormGridItem from './ControllerFormGridItem.tsx'
 
 interface IComponentProps {
   form: FormInstance
 }
-
-const directionOptions = [
-  {
-    label: '横向',
-    value: 'horizontal',
-  },
-  {
-    label: '竖向',
-    value: 'vertical',
-  },
-]
 
 function ControllerForm({ form }: IComponentProps) {
   const initialValues = useMemo(() => {
@@ -27,11 +16,13 @@ function ControllerForm({ form }: IComponentProps) {
       showAxios: false,
       items: [
         {
+          type: 'endpoint',
           startR: 1,
           startC: 1,
           color: 'red',
         },
         {
+          type: 'endpoint',
           startR: 1,
           startC: 2,
           endR: 3,
@@ -39,6 +30,7 @@ function ControllerForm({ form }: IComponentProps) {
           color: 'blue',
         },
         {
+          type: 'endpoint',
           startR: 5,
           startC: 2,
           endR: 8,
@@ -46,6 +38,7 @@ function ControllerForm({ form }: IComponentProps) {
           color: 'green',
         },
         {
+          type: 'endpoint',
           startR: 1,
           startC: 7,
           endR: 8,
@@ -53,27 +46,30 @@ function ControllerForm({ form }: IComponentProps) {
           color: 'orange',
         },
         {
+          type: 'span',
           startR: 9,
           startC: 1,
-          endR: 10,
-          endC: 10,
+          spanR: 2,
+          spanC: 10,
           color: 'lime',
         },
       ],
       gutters: [
         {
+          type: 'span',
           startR: 4,
           startC: 1,
-          endR: 4,
-          endC: 5,
+          spanR: 1,
+          spanC: 5,
           direction: 'horizontal',
           color: 'gray',
         },
         {
+          type: 'span',
           startR: 1,
           startC: 6,
-          endR: 8,
-          endC: 6,
+          spanR: 8,
+          spanC: 1,
           direction: 'vertical',
           color: '#ccc',
         },
@@ -82,12 +78,18 @@ function ControllerForm({ form }: IComponentProps) {
   }, [])
 
   return (
-    <Form className={styles.form} form={form} initialValues={initialValues}>
+    <Form className={styles.form} form={form} initialValues={initialValues} preserve={false}>
       <Form.Item name="width" label="容器宽度(%)">
         <Slider min={10} max={100} step={10} />
       </Form.Item>
       <Form.Item name="height" label="容器高度(%)">
         <Slider min={10} max={100} step={10} />
+      </Form.Item>
+      <Form.Item name="row" label="行数" tooltip="不填则自动计算">
+        <InputNumber min={1} />
+      </Form.Item>
+      <Form.Item name="col" label="列数" tooltip="不填则自动计算">
+        <InputNumber min={1} />
       </Form.Item>
       <Form.Item name="bordered" label="显式边框">
         <Switch />
@@ -102,40 +104,7 @@ function ControllerForm({ form }: IComponentProps) {
               <>
                 {fields.map((field, index) => {
                   return (
-                    <div key={field.key}>
-                      <Flex align="center" style={{ marginBottom: '10px' }} justify="space-between">
-                        <span>{index}</span>
-                        <Form.Item name={[field.name, 'color']} style={{ marginBottom: 0 }}>
-                          <ColorPicker disabledAlpha />
-                        </Form.Item>
-                        <Popover
-                          placement="right"
-                          content={(
-                            <>
-                              <Form.Item name={[field.name, 'startR']} label="开始行">
-                                <InputNumber min={1} />
-                              </Form.Item>
-                              <Form.Item name={[field.name, 'startC']} label="开始列">
-                                <InputNumber min={1} />
-                              </Form.Item>
-                              <Form.Item name={[field.name, 'endR']} label="结束行">
-                                <InputNumber min={1} />
-                              </Form.Item>
-                              <Form.Item name={[field.name, 'endC']} label="结束列">
-                                <InputNumber min={1} />
-                              </Form.Item>
-                            </>
-                          )}
-                        >
-                          <Button>位置</Button>
-                        </Popover>
-                        <CloseOutlined
-                          onClick={() => {
-                            remove(field.name)
-                          }}
-                        />
-                      </Flex>
-                    </div>
+                    <ControllerFormGridItem key={index} form={form} field={field} onRemove={remove} />
                   )
                 })}
                 <Button block onClick={() => add({ startR: 1, startC: 1 })}>增加GridItem</Button>
@@ -144,53 +113,17 @@ function ControllerForm({ form }: IComponentProps) {
           }}
         </Form.List>
       </Card>
-      <Card title="GridGutter" size="small" type="inner">
+      <Card title="GridDivider" size="small" type="inner">
         <Form.List name="gutters">
           {(fields, { add, remove }) => {
             return (
               <>
                 {fields.map((field, index) => {
                   return (
-                    <div key={field.key}>
-                      <Flex align="center" style={{ marginBottom: '10px' }} justify="space-between">
-                        <span>{index}</span>
-                        <Form.Item name={[field.name, 'color']} style={{ marginBottom: 0 }}>
-                          <ColorPicker disabledAlpha />
-                        </Form.Item>
-                        <Form.Item name={[field.name, 'direction']} style={{ marginBottom: 0 }}>
-                          <Select options={directionOptions} />
-                        </Form.Item>
-                        <Popover
-                          placement="right"
-                          content={(
-                            <>
-                              <Form.Item name={[field.name, 'startR']} label="开始行">
-                                <InputNumber min={1} />
-                              </Form.Item>
-                              <Form.Item name={[field.name, 'startC']} label="开始列">
-                                <InputNumber min={1} />
-                              </Form.Item>
-                              <Form.Item name={[field.name, 'endR']} label="结束行">
-                                <InputNumber min={1} />
-                              </Form.Item>
-                              <Form.Item name={[field.name, 'endC']} label="结束列">
-                                <InputNumber min={1} />
-                              </Form.Item>
-                            </>
-                          )}
-                        >
-                          <Button>位置</Button>
-                        </Popover>
-                        <CloseOutlined
-                          onClick={() => {
-                            remove(field.name)
-                          }}
-                        />
-                      </Flex>
-                    </div>
+                    <ControllerFormGridItem key={index} form={form} field={field} onRemove={remove} />
                   )
                 })}
-                <Button block onClick={() => add({ startR: 1, startC: 1, direction: 'horizontal' })}>增加GridItem</Button>
+                <Button block onClick={() => add({ startR: 1, startC: 1, direction: 'horizontal', span: 1 })}>增加GridItem</Button>
               </>
             )
           }}
