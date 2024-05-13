@@ -10,6 +10,10 @@
   overflow: auto;
 }
 
+.GridBorder {
+  box-sizing: border-box;
+}
+
 .gridGutterItem {
   display: flex;
   align-items: center;

@@ -1,7 +1,12 @@
 .title {
-  font-size: 18px;
-  margin-bottom: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  font-size: 20px;
+  margin-bottom: 20px;
   font-weight: bold;
+  flex-shrink: 0;
 }
 
 .logo {
@@ -28,10 +33,16 @@
 }
 
 .sider {
-  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: auto;
 }
 
 .form {
+  flex: 1;
+  overflow: auto;
+  padding: 8px;
 }
 
 .fork {
@@ -46,4 +57,8 @@
   justify-content: center;
   width: 100%;
   height: 100%;
+}
+
+.formCard {
+  margin-bottom: 10px;
 }

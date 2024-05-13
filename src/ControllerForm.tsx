@@ -1,18 +1,23 @@
 import React, { useMemo } from 'react'
-import styles from './App.module.css'
 import { Button, Card, Form, InputNumber, Slider, Switch, type FormInstance } from 'antd'
 import ControllerFormGridItem from './ControllerFormGridItem.tsx'
+import styles from './App.module.css'
 
 interface IComponentProps {
   form: FormInstance
+  style?: React.CSSProperties
+  className?: string
 }
 
-function ControllerForm({ form }: IComponentProps) {
+function ControllerForm({ form, style, className }: IComponentProps) {
   const initialValues = useMemo(() => {
     return {
       width: 100,
       height: 80,
-      bordered: false,
+      border: {
+        inner: false,
+        outer: false,
+      },
       showAxios: false,
       items: [
         {
@@ -50,7 +55,7 @@ function ControllerForm({ form }: IComponentProps) {
           startR: 9,
           startC: 1,
           spanR: 2,
-          spanC: 10,
+          spanC: 6,
           color: 'lime',
         },
       ],
@@ -78,7 +83,7 @@ function ControllerForm({ form }: IComponentProps) {
   }, [])
 
   return (
-    <Form className={styles.form} form={form} initialValues={initialValues} preserve={false}>
+    <Form form={form} initialValues={initialValues} preserve={false} style={style} className={className}>
       <Form.Item name="width" label="容器宽度(%)">
         <Slider min={10} max={100} step={10} />
       </Form.Item>
@@ -91,13 +96,18 @@ function ControllerForm({ form }: IComponentProps) {
       <Form.Item name="col" label="列数" tooltip="不填则自动计算">
         <InputNumber min={1} />
       </Form.Item>
-      <Form.Item name="bordered" label="显式边框">
+      <Form.Item name="showAxios" label="显示坐标轴">
         <Switch />
       </Form.Item>
-      <Form.Item name="showAxios" label="显式坐标轴">
-        <Switch />
-      </Form.Item>
-      <Card title="GridItem" size="small" type="inner">
+      <Card title="边框" size="small" type="inner" className={styles.formCard}>
+        <Form.Item name={['border', 'inner']} label="显示内框">
+          <Switch />
+        </Form.Item>
+        <Form.Item name={['border', 'outer']} label="显示外框">
+          <Switch />
+        </Form.Item>
+      </Card>
+      <Card title="GridItem" size="small" type="inner" className={styles.formCard}>
         <Form.List name="items">
           {(fields, { add, remove }) => {
             return (
@@ -113,7 +123,7 @@ function ControllerForm({ form }: IComponentProps) {
           }}
         </Form.List>
       </Card>
-      <Card title="GridDivider" size="small" type="inner">
+      <Card title="GridDivider" size="small" type="inner" className={styles.formCard}>
         <Form.List name="gutters">
           {(fields, { add, remove }) => {
             return (

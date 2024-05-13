@@ -1,9 +1,17 @@
 import GridContainer from './GridContainer'
 import GridItem from './GridItem'
-import GridGutter from './GridDivider.tsx'
+import GridDivider from './GridDivider'
+import GridBorder from './GridBorder'
+import GridRowBorder from './GridRowBorder'
+import GridColBorder from './GridColBorder'
+import GridAxios from './GridAxios'
 
 export {
   GridContainer,
   GridItem,
-  GridGutter,
+  GridDivider,
+  GridRowBorder,
+  GridColBorder,
+  GridBorder,
+  GridAxios,
 }

@@ -1,7 +1,7 @@
 import { Layout, Form, Flex, type ColorPickerProps } from 'antd'
 import styles from './App.module.css'
 import reactLogo from './assets/react.svg'
-import { GridContainer, GridItem, GridGutter } from '../lib/main'
+import { GridContainer, GridItem, GridDivider, GridAxios, GridBorder } from '../lib/main'
 import ControllerForm from './ControllerForm'
 import { useMemo } from 'react'
 
@@ -29,12 +29,10 @@ function App() {
   const formHeight = Form.useWatch('height', form)
   const formRow = Form.useWatch('row', form)
   const formCol = Form.useWatch('col', form)
-  const formBordered = Form.useWatch('bordered', form)
+  const formBorder = Form.useWatch('border', form)
   const formShowAxios = Form.useWatch('showAxios', form)
   const formItems: IItem[] = Form.useWatch('items', form)
   const formGutters: IGutter[] = Form.useWatch('gutters', form)
-
-  console.log(formItems)
 
   const gridContainerStyle = useMemo(() => {
     return { width: `${formWidth}%`, height: `${formHeight}%`, background: '#fff' }
@@ -58,25 +56,27 @@ function App() {
           alt="forkMe"
         />
       </a>
-      <Layout.Sider theme="light" className={styles.sider} width={250}>
-        <Flex align="center" className={styles.title}>
-          <img className={styles.logo} src={reactLogo} alt="logo" />
-          <span>react-easy-grid</span>
-        </Flex>
-        <ControllerForm form={form} />
+      <Layout.Sider theme="light" width={250}>
+        <div className={styles.sider}>
+          <Flex align="center" className={styles.title}>
+            <img className={styles.logo} src={reactLogo} alt="logo" />
+            <span>react-easy-grid</span>
+          </Flex>
+          <ControllerForm form={form} className={styles.form} />
+        </div>
       </Layout.Sider>
       <Layout.Content className={styles.content}>
         <GridContainer
           row={formRow}
           col={formCol}
-          bordered={formBordered}
-          showAxios={formShowAxios}
           style={gridContainerStyle}
           itemStyle={gridItemStyle}
         >
+          {formBorder && <GridBorder showInner={formBorder.inner} showOuter={formBorder.outer} />}
+          {formShowAxios && <GridAxios />}
           {formGutters?.map((item, index) => {
             return (
-              <GridGutter
+              <GridDivider
                 key={index}
                 start={`r${item.startR}c${item.startC}`}
                 end={(item.endC && item.endR) ? [item.endC, item.endR] : null}
