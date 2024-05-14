@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
 import GridItem, { IComponentProps as IGridItemProps } from './GridItem'
-import styles from './styles.module.scss'
 
 interface IComponentProps extends IGridItemProps {
   direction: 'horizontal' | 'vertical'
@@ -17,9 +16,12 @@ interface IComponentProps extends IGridItemProps {
  * @param props.direction 方向
  * @param props.lineColor 分割线颜色
  */
-function GridDivider({ start, direction = 'horizontal', lineColor = 'gray', lineStyle = 'solid', lineWidth = '1px', className, ...leftProps }: IComponentProps) {
+function GridDivider({ start, direction = 'horizontal', lineColor = 'gray', lineStyle = 'solid', lineWidth = '1px', ...leftProps }: IComponentProps) {
   const computedStyle = useMemo<React.CSSProperties>(() => {
     return {
+      position: 'absolute',
+      top: direction === 'horizontal' ? `calc(50% - ${lineWidth} / 2)` : 0,
+      left: direction === 'vertical' ? `calc(50% - ${lineWidth} / 2)` : 0,
       width: direction === 'horizontal' ? '100%' : undefined,
       height: direction === 'vertical' ? '100%' : undefined,
       borderWidth: lineWidth,
@@ -30,7 +32,6 @@ function GridDivider({ start, direction = 'horizontal', lineColor = 'gray', line
 
   return (
     <GridItem
-      className={`${styles.gridGutterItem} ${className ?? ''}`}
       start={start}
       {...leftProps}
     >
