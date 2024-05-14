@@ -72,7 +72,7 @@ function App() {
           style={gridContainerStyle}
           itemStyle={gridItemStyle}
         >
-          {formBorder && <GridBorder showInner={formBorder.inner} showOuter={formBorder.outer} />}
+          {formBorder && <GridBorder showInner={formBorder.inner} showOuter={formBorder.outer} lineWidth={formBorder.width} />}
           {formShowAxios && <GridAxios />}
           {formGutters?.map((item, index) => {
             return (

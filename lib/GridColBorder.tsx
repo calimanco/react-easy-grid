@@ -21,17 +21,18 @@ function GridColBorder({ showInner = true, showOuter = true, lineColor = 'gray',
   for (let i = 1; i <= col; i++) {
     const start = `r1c${i}`
     const style: React.CSSProperties = {
-      right: `-${lineWidth / 2}px`,
-      borderRight: borderStyle,
+      left: `-${lineWidth / 2}px`,
+      width: i === col ? `calc(100% + ${lineWidth}px)` : '100%',
+      borderLeft: borderStyle,
     }
-    if (i === 1 && !showInner) {
-      style.borderRight = undefined
+    if (i === col && !showInner) {
+      style.borderLeft = undefined
     }
-    if (i === 1 && showOuter) {
-      style.borderLeft = borderStyle
+    if (i === col && showOuter) {
+      style.borderRight = borderStyle
     }
-    if (i === col && !showOuter) {
-      style.borderRight = undefined
+    if (i === 1 && !showOuter) {
+      style.borderLeft = undefined
     }
     result.push(
       <GridItem

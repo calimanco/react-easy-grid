@@ -17,6 +17,7 @@ function ControllerForm({ form, style, className }: IComponentProps) {
       border: {
         inner: false,
         outer: false,
+        width: 3,
       },
       showAxios: false,
       items: [
@@ -105,6 +106,9 @@ function ControllerForm({ form, style, className }: IComponentProps) {
         </Form.Item>
         <Form.Item name={['border', 'outer']} label="显示外框">
           <Switch />
+        </Form.Item>
+        <Form.Item name={['border', 'width']} label="边框宽度">
+          <InputNumber min={1} />
         </Form.Item>
       </Card>
       <Card title="GridItem" size="small" type="inner" className={styles.formCard}>
