@@ -10,7 +10,7 @@ export interface IGridContext {
   row: number
   col: number
   itemStyle?: React.CSSProperties
-  onItemReady?: ((res: IGridItem) => void)
+  onResize?: ((res: IGridItem) => void)
 }
 
 export const GridContext = React.createContext<IGridContext>({

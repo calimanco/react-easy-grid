@@ -23,8 +23,9 @@ export interface IComponentProps {
  * @param props.children
  */
 function GridItem({ start, end, span = 1, style, className, children }: IComponentProps) {
-  const { itemStyle: contextStyle, onItemReady } = useContext(GridContext)
+  const { itemStyle: contextStyle, onResize } = useContext(GridContext)
   const itemRef = useRef(null)
+  const hasReady = useRef(false)
 
   const startP = useMemo(() => {
     if (typeof start === 'string') {
@@ -34,7 +35,7 @@ function GridItem({ start, end, span = 1, style, className, children }: ICompone
       return [Number(start), Number(start)]
     }
     return [Number(start?.[0]) || 1, Number(start?.[1]) || 1]
-  }, [start])
+  }, [JSON.stringify(start)])
 
   const endP = useMemo(() => {
     if (!!end || !!(Array.isArray(end) && end[0])) {
@@ -59,9 +60,8 @@ function GridItem({ start, end, span = 1, style, className, children }: ICompone
       res[0] += (span || 1) - 1
       res[1] += (span || 1) - 1
     }
-
     return res
-  }, [end, span, startP])
+  }, [JSON.stringify(end), JSON.stringify(span), startP])
 
   const itemStyle = useMemo<React.CSSProperties>(() => {
     const result = []
@@ -73,7 +73,6 @@ function GridItem({ start, end, span = 1, style, className, children }: ICompone
       result.push(endP[0] + 1)
       result.push(endP[1] + 1)
     }
-
     return {
       ...contextStyle,
       gridArea: result.join('/'),
@@ -85,22 +84,26 @@ function GridItem({ start, end, span = 1, style, className, children }: ICompone
     if (!startP) {
       return
     }
-    onItemReady?.({
+    onResize?.({
       start: startP,
       end: endP,
       ref: itemRef,
     })
-  }, [endP, onItemReady, startP])
+  }, [endP, onResize, startP])
 
   useEffect(() => {
+    if (!hasReady.current) {
+      hasReady.current = true
+      return
+    }
     return () => {
-      onItemReady?.({
+      onResize?.({
         start: null,
         end: null,
         ref: itemRef,
       })
     }
-  }, [onItemReady])
+  }, [])
 
   return <div className={`${styles.gridItem} ${className ?? ''}`} style={itemStyle} ref={itemRef}>{children}</div>
 }

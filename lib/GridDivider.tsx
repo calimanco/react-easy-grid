@@ -17,7 +17,7 @@ interface IComponentProps extends IGridItemProps {
  * @param props.direction 方向
  * @param props.lineColor 分割线颜色
  */
-function GridDivider({ start, direction = 'horizontal', lineColor = 'gray', lineStyle = 'solid', lineWidth = '1px', ...leftProps }: IComponentProps) {
+function GridDivider({ start, direction = 'horizontal', lineColor = 'gray', lineStyle = 'solid', lineWidth = '1px', className, ...leftProps }: IComponentProps) {
   const computedStyle = useMemo<React.CSSProperties>(() => {
     return {
       width: direction === 'horizontal' ? '100%' : undefined,
@@ -30,7 +30,7 @@ function GridDivider({ start, direction = 'horizontal', lineColor = 'gray', line
 
   return (
     <GridItem
-      className={styles.gridGutterItem}
+      className={`${styles.gridGutterItem} ${className ?? ''}`}
       start={start}
       {...leftProps}
     >

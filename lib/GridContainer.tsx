@@ -25,7 +25,7 @@ function GridContainer({ row, col, style, itemStyle = {}, className, children }:
   const [maxRow, setMaxRow] = useState(0)
   const [maxCol, setMaxCol] = useState(0)
 
-  const handleItemReady = useCallback((res: IGridItem) => {
+  const handleResize = useCallback((res: IGridItem) => {
     const idx = itemsRef.current.findIndex(i => i.ref?.current === res.ref?.current)
     if (idx === -1) {
       itemsRef.current.push(res)
@@ -63,8 +63,8 @@ function GridContainer({ row, col, style, itemStyle = {}, className, children }:
   }, [row, col, maxRow, maxCol])
 
   const context = useMemo<IGridContext>(() => {
-    return { itemStyle, row: maxRow, col: maxCol, onItemReady: handleItemReady }
-  }, [itemStyle, maxRow, maxCol, handleItemReady])
+    return { itemStyle, row: maxRow, col: maxCol, onResize: handleResize }
+  }, [itemStyle, maxRow, maxCol, handleResize])
 
   const gridStyle = useMemo<React.CSSProperties>(() => {
     return {
