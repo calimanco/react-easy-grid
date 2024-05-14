@@ -10,19 +10,19 @@ type IComponentProps = IBaseProps
  * 列边框
  * @extends GridBorder
  */
-function GridColBorder({ showInner = true, showOuter = true, lineColor = 'gray', lineStyle = 'dashed', lineWidth = 1 }: IComponentProps) {
+function GridColBorder({ showInner = true, showOuter = true, lineColor = 'gray', lineStyle = 'dashed', lineWidth = '1px' }: IComponentProps) {
   const { row, col } = useContext(GridContext)
 
   const borderStyle = useMemo(() => {
-    return `${lineWidth}px ${lineStyle} ${lineColor}`
+    return `${lineWidth} ${lineStyle} ${lineColor}`
   }, [lineColor, lineStyle, lineWidth])
 
   const result: React.ReactElement[] = []
   for (let i = 1; i <= col; i++) {
     const start = `r1c${i}`
     const style: React.CSSProperties = {
-      left: `-${lineWidth / 2}px`,
-      width: i === col ? `calc(100% + ${lineWidth}px)` : '100%',
+      left: `calc(${lineWidth} / -2)`,
+      width: i === col ? `calc(100% + ${lineWidth})` : '100%',
       borderLeft: borderStyle,
     }
     if (i === col && !showInner) {

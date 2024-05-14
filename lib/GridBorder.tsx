@@ -7,7 +7,7 @@ export interface IComponentProps {
   showOuter?: boolean
   lineColor?: React.CSSProperties['borderColor']
   lineStyle?: React.CSSProperties['borderStyle']
-  lineWidth?: number
+  lineWidth?: string
 }
 
 /**
