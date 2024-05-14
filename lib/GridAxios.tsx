@@ -1,53 +1,79 @@
-import React, { useContext } from 'react'
-import { GridContext } from './context.ts'
+import React, { useContext, useMemo } from 'react'
+import { GridContext } from './context'
+import GridItem from './GridItem'
 import styles from './styles.module.scss'
 
 function GridAxios() {
   const { row, col } = useContext(GridContext)
-  const result: React.ReactElement[] = []
-  for (let i = 1; i <= row; i++) {
-    const gridArea = `${i}/1`
-    result.push(
-      <div
-        key={`axios-y-${gridArea}`}
-        className={styles.gridAxiosItem}
-        style={{
-          gridArea,
-        }}
-      >
-        <span style={{
-          position: 'absolute',
-          right: '103%',
-          zIndex: 999,
-        }}
+
+  const XPointList = useMemo(() => {
+    const result: React.ReactElement[] = []
+    const tmp = 100 / col
+    for (let i = 1; i <= col; i++) {
+      result.push((
+        <span
+          key={i}
+          style={{
+            position: 'absolute',
+            left: `${tmp * i - tmp / 2}%`,
+            bottom: 0,
+            transform: 'translateX(-50%)',
+          }}
         >
           {i}
         </span>
-      </div>,
-    )
-  }
-  for (let j = 1; j <= col; j++) {
-    const gridArea = `1/${j}`
-    result.push(
-      <div
-        key={`axios-x-${gridArea}`}
+      ))
+    }
+    return result
+  }, [col])
+
+  const YPointList = useMemo(() => {
+    const result: React.ReactElement[] = []
+    const tmp = 100 / row
+    for (let i = 1; i <= row; i++) {
+      result.push((
+        <span
+          key={i}
+          style={{
+            position: 'absolute',
+            right: '3px',
+            top: `${tmp * i - tmp / 2}%`,
+            transform: 'translateY(-50%)',
+          }}
+        >
+          {i}
+        </span>
+      ))
+    }
+    return result
+  }, [row])
+
+  return (
+    <GridContext.Provider value={{ row, col }}>
+      <GridItem
+        start="r1c1"
+        span={[1, col]}
+        key="axios-x"
         className={styles.gridAxiosItem}
         style={{
-          gridArea,
+          top: '-100%',
         }}
       >
-        <span style={{
-          position: 'absolute',
-          bottom: '100%',
-          zIndex: 999,
+        {XPointList}
+      </GridItem>
+      <GridItem
+        start="r1c1"
+        span={[row, 1]}
+        key="axios-y"
+        className={styles.gridAxiosItem}
+        style={{
+          left: '-100%',
         }}
-        >
-          {j}
-        </span>
-      </div>,
-    )
-  }
-  return result
+      >
+        {YPointList}
+      </GridItem>
+    </GridContext.Provider>
+  )
 }
 
 export default React.memo(GridAxios)
