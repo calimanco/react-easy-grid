@@ -21,6 +21,7 @@ function GridRowBorder({ showInner = true, showOuter = true, lineColor = 'gray',
   for (let i = 1; i <= row; i++) {
     const start = `r${i}c1`
     const style: React.CSSProperties = {
+      bottom: `-${lineWidth / 2}px`,
       borderBottom: borderStyle,
     }
     if (i === 1 && !showInner) {

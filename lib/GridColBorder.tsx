@@ -21,6 +21,7 @@ function GridColBorder({ showInner = true, showOuter = true, lineColor = 'gray',
   for (let i = 1; i <= col; i++) {
     const start = `r1c${i}`
     const style: React.CSSProperties = {
+      right: `-${lineWidth / 2}px`,
       borderRight: borderStyle,
     }
     if (i === 1 && !showInner) {
