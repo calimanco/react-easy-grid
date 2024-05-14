@@ -3,7 +3,18 @@ import { GridContext } from './context'
 import GridItem from './GridItem'
 import styles from './styles.module.scss'
 
-function GridAxios() {
+export interface IComponentProps {
+  fontSize?: string
+  fontColor?: string
+}
+
+/**
+ * 网格坐标
+ * @param {object} props
+ * @param props.fontSize 字大小
+ * @param props.fontColor 字颜色
+ */
+function GridAxios({ fontSize, fontColor }: IComponentProps) {
   const { row, col } = useContext(GridContext)
 
   const XPointList = useMemo(() => {
@@ -18,6 +29,8 @@ function GridAxios() {
             left: `${tmp * i - tmp / 2}%`,
             bottom: 0,
             transform: 'translateX(-50%)',
+            fontSize,
+            color: fontColor,
           }}
         >
           {i}
@@ -25,7 +38,7 @@ function GridAxios() {
       ))
     }
     return result
-  }, [col])
+  }, [col, fontColor, fontSize])
 
   const YPointList = useMemo(() => {
     const result: React.ReactElement[] = []
@@ -39,6 +52,8 @@ function GridAxios() {
             right: '3px',
             top: `${tmp * i - tmp / 2}%`,
             transform: 'translateY(-50%)',
+            fontSize,
+            color: fontColor,
           }}
         >
           {i}
@@ -46,7 +61,7 @@ function GridAxios() {
       ))
     }
     return result
-  }, [row])
+  }, [fontColor, fontSize, row])
 
   return (
     <GridContext.Provider value={{ row, col }}>
