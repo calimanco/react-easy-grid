@@ -69,9 +69,9 @@ function GridItem({ start, end, span = 1, style, className, children }: ICompone
       result.push(startP[0])
       result.push(startP[1])
     }
-    if (endP) {
-      result.push(endP[0] + 1)
-      result.push(endP[1] + 1)
+    if (startP && endP) {
+      result.push(endP[0] <= startP[0] - 1 ? endP[0] : endP[0] + 1)
+      result.push(endP[1] <= startP[1] - 1 ? endP[1] : endP[1] + 1)
     }
     return {
       ...contextStyle,
