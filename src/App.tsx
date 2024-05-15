@@ -25,6 +25,7 @@ interface IGutter extends IItem {
 
 function App() {
   const [form] = Form.useForm()
+  const formLegacy = Form.useWatch('legacy', form)
   const formWidth = Form.useWatch('width', form)
   const formHeight = Form.useWatch('height', form)
   const formRow = Form.useWatch('row', form)
@@ -71,6 +72,7 @@ function App() {
           col={formCol}
           style={gridContainerStyle}
           itemStyle={gridItemStyle}
+          legacy={formLegacy}
         >
           {formBorder && <GridBorder showInner={formBorder.inner} showOuter={formBorder.outer} lineWidth={`${formBorder.width}px`} />}
           {formShowAxios && <GridAxios />}

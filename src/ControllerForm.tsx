@@ -17,7 +17,7 @@ function ControllerForm({ form, style, className }: IComponentProps) {
       border: {
         inner: false,
         outer: false,
-        width: 3,
+        width: 1,
       },
       showAxios: false,
       items: [
@@ -85,6 +85,9 @@ function ControllerForm({ form, style, className }: IComponentProps) {
 
   return (
     <Form form={form} initialValues={initialValues} preserve={false} style={style} className={className}>
+      <Form.Item name="legacy" label="降级渲染">
+        <Switch />
+      </Form.Item>
       <Form.Item name="width" label="容器宽度(%)">
         <Slider min={10} max={100} step={10} />
       </Form.Item>

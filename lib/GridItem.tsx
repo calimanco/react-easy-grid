@@ -23,47 +23,79 @@ export interface IComponentProps {
  * @param props.children
  */
 function GridItem({ start, end, span = 1, style, className, children }: IComponentProps) {
-  const { itemStyle: contextStyle, onResize } = useContext(GridContext)
+  const { row, col, legacy, itemStyle: contextStyle, onResize } = useContext(GridContext)
   const itemRef = useRef(null)
   const hasReady = useRef(false)
 
   const startP = useMemo(() => {
+    let result: number[] | null = null
     if (typeof start === 'string') {
-      return transformGridStrToArray(start)
+      result = transformGridStrToArray(start)
     }
-    if (typeof start === 'number' || (Array.isArray(start) && start?.length === 1)) {
-      return [Number(start), Number(start)]
+    if (typeof start === 'number') {
+      result = [Number(start), Number(start)]
     }
-    return [Number(start?.[0]) || 1, Number(start?.[1]) || 1]
+    if (Array.isArray(start)) {
+      result = [Number(start?.[0]) || 1, Number(start?.[1]) || Number(start?.[0]) || 1]
+    }
+    return result
   }, [JSON.stringify(start)])
 
   const endP = useMemo(() => {
-    if (!!end || !!(Array.isArray(end) && end[0])) {
+    if (end) {
+      let result: number[] | null = null
       if (typeof end === 'string') {
-        return transformGridStrToArray(end)
+        result = transformGridStrToArray(end)
       }
-      if (typeof end === 'number' || (Array.isArray(end) && end?.length === 1)) {
-        return [Number(end), Number(end)]
+      if (typeof end === 'number') {
+        result = [Number(end), Number(end)]
       }
-      return [Number(end?.[0]) || 1, Number(end?.[1]) || 1]
-    }
-    if (!startP) {
-      return null
-    }
-    const res = [...startP]
-    if (Array.isArray(span)) {
-      const tmp = span.map(i => Number(i))
-      res[0] += (tmp?.[0] || 1) - 1
-      res[1] += (tmp?.[1] || 1) - 1
+      if (Array.isArray(end)) {
+        result = [Number(end?.[0]) || 1, Number(end?.[1]) || Number(end?.[0]) || 1]
+      }
+      if (legacy && Array.isArray(result)) {
+        result = [result[0] < col ? result[0] : col, result[1] < row ? result[1] : row]
+      }
+      return result
     }
     else {
-      res[0] += (span || 1) - 1
-      res[1] += (span || 1) - 1
+      if (!startP) {
+        return null
+      }
+      const result = [...startP]
+      if (Array.isArray(span)) {
+        const tmp = span.map(i => Number(i))
+        result[0] += (tmp?.[0] || 1) - 1
+        result[1] += (tmp?.[1] || 1) - 1
+      }
+      else {
+        result[0] += (span || 1) - 1
+        result[1] += (span || 1) - 1
+      }
+      return result
     }
-    return res
   }, [JSON.stringify(end), JSON.stringify(span), startP])
 
   const itemStyle = useMemo<React.CSSProperties>(() => {
+    if (legacy && startP) {
+      const unitR = 100 / row
+      const unitC = 100 / col
+      const offsetX = (endP ? Math.min(startP[1], endP[1]) : startP[1]) - 1
+      const offsetY = (endP ? Math.min(startP[0], endP[0]) : startP[0]) - 1
+      const height = endP ? Math.abs(startP[0] - endP[0]) + 1 : 1
+      const limitHeight = offsetY + height > row ? (row - offsetY < 0 ? 0 : row - offsetY) : height
+      const width = endP ? Math.abs(startP[1] - endP[1]) + 1 : 1
+      const limitWidth = offsetX + width > col ? (col - offsetX < 0 ? 0 : col - offsetX) : width
+      return {
+        position: 'absolute',
+        top: `${offsetY * unitR}%`,
+        left: `${offsetX * unitC}%`,
+        height: `${limitHeight * unitR}%`,
+        width: `${limitWidth * unitC}%`,
+        ...contextStyle,
+        ...style,
+      }
+    }
     const result = []
     if (startP) {
       result.push(startP[0])
@@ -78,7 +110,7 @@ function GridItem({ start, end, span = 1, style, className, children }: ICompone
       gridArea: result.join('/'),
       ...style,
     }
-  }, [startP, endP, contextStyle, style])
+  }, [legacy, startP, endP, contextStyle, style, row, col])
 
   useEffect(() => {
     if (!startP) {

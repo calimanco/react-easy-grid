@@ -6,6 +6,7 @@ export interface IComponentProps {
   col?: number
   style?: React.CSSProperties
   itemStyle?: React.CSSProperties
+  legacy?: boolean
   className?: string
   children?: React.ReactNode
 }
@@ -17,10 +18,11 @@ export interface IComponentProps {
  * @param props.col 列
  * @param props.style 样式
  * @param props.itemStyle 子项样式
+ * @param props.legacy 降级渲染
  * @param props.className 类名
  * @param props.children
  */
-function GridContainer({ row, col, style, itemStyle = {}, className, children }: IComponentProps) {
+function GridContainer({ row, col, style, itemStyle, legacy, className, children }: IComponentProps) {
   const itemsRef = useRef<IGridItem[]>([])
   const [maxRow, setMaxRow] = useState(0)
   const [maxCol, setMaxCol] = useState(0)
@@ -63,10 +65,17 @@ function GridContainer({ row, col, style, itemStyle = {}, className, children }:
   }, [row, col, maxRow, maxCol])
 
   const context = useMemo<IGridContext>(() => {
-    return { itemStyle, row: maxRow, col: maxCol, onResize: handleResize }
-  }, [itemStyle, maxRow, maxCol, handleResize])
+    return { itemStyle, row: computedGrid.row, col: computedGrid.col, legacy, onResize: handleResize }
+  }, [itemStyle, computedGrid.row, computedGrid.col, legacy, handleResize])
 
   const gridStyle = useMemo<React.CSSProperties>(() => {
+    if (legacy) {
+      return {
+        position: 'relative',
+        boxSizing: 'border-box',
+        ...style,
+      }
+    }
     return {
       boxSizing: 'border-box',
       display: 'grid',
@@ -76,7 +85,7 @@ function GridContainer({ row, col, style, itemStyle = {}, className, children }:
       gridTemplateRows: `repeat(${computedGrid.row}, 1fr)`,
       ...style,
     }
-  }, [computedGrid, style])
+  }, [computedGrid.col, computedGrid.row, legacy, style])
 
   return (
     <GridContext.Provider value={context}>

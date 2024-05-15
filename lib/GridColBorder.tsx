@@ -11,7 +11,7 @@ type IComponentProps = IBaseProps
  * @extends GridBorder
  */
 function GridColBorder({ showInner = true, showOuter = true, lineColor = 'gray', lineStyle = 'dashed', lineWidth = '1px' }: IComponentProps) {
-  const { row, col } = useContext(GridContext)
+  const { row, col, legacy } = useContext(GridContext)
 
   const borderStyle = useMemo(() => {
     return `${lineWidth} ${lineStyle} ${lineColor}`
@@ -21,8 +21,6 @@ function GridColBorder({ showInner = true, showOuter = true, lineColor = 'gray',
   for (let i = 1; i <= col; i++) {
     const start = `r1c${i}`
     const style: React.CSSProperties = {
-      left: `calc(${lineWidth} / -2)`,
-      width: i === col ? `calc(100% + ${lineWidth})` : '100%',
       borderLeft: borderStyle,
     }
     if (i === col && !showInner) {
@@ -48,8 +46,8 @@ function GridColBorder({ showInner = true, showOuter = true, lineColor = 'gray',
     result.splice(1, result.length - 2)
   }
   return (
-    <GridContext.Provider value={{ row, col }}>
-      {result}
+    <GridContext.Provider value={{ row, col, legacy }}>
+      {showOuter ? result : null}
     </GridContext.Provider>
   )
 }

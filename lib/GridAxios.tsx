@@ -15,7 +15,7 @@ export interface IComponentProps {
  * @param props.fontColor 字颜色
  */
 function GridAxios({ fontSize, fontColor }: IComponentProps) {
-  const { row, col } = useContext(GridContext)
+  const { row, col, legacy } = useContext(GridContext)
 
   const XPointList = useMemo(() => {
     const result: React.ReactElement[] = []
@@ -64,14 +64,15 @@ function GridAxios({ fontSize, fontColor }: IComponentProps) {
   }, [fontColor, fontSize, row])
 
   return (
-    <GridContext.Provider value={{ row, col }}>
+    <GridContext.Provider value={{ row, col, legacy }}>
       <GridItem
         start="r1c1"
         span={[1, col]}
         key="axios-x"
         className={styles.gridAxiosItem}
         style={{
-          top: '-100%',
+          height: '20px',
+          transform: 'translateY(-100%)',
         }}
       >
         {XPointList}
@@ -82,7 +83,8 @@ function GridAxios({ fontSize, fontColor }: IComponentProps) {
         key="axios-y"
         className={styles.gridAxiosItem}
         style={{
-          left: '-100%',
+          width: '20px',
+          transform: 'translateX(-100%)',
         }}
       >
         {YPointList}

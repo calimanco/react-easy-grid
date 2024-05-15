@@ -9,6 +9,7 @@ export interface IGridItem {
 export interface IGridContext {
   row: number
   col: number
+  legacy?: boolean
   itemStyle?: React.CSSProperties
   onResize?: ((res: IGridItem) => void)
 }
