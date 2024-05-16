@@ -12,6 +12,7 @@ interface IComponentProps {
 function ControllerForm({ form, style, className }: IComponentProps) {
   const initialValues = useMemo(() => {
     return {
+      legacy: true,
       width: 100,
       height: 80,
       border: {

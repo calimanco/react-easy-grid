@@ -5,3 +5,7 @@ export function transformGridStrToArray(str: string) {
   return res?.map(i => Number(i)) ?? null
 }
 
+export function canGridSupport() {
+  document.head.style.display = 'grid'
+  return window.getComputedStyle(document.head).display === 'grid'
+}

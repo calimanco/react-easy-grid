@@ -1,5 +1,6 @@
-import React, { useCallback, useMemo, useState, useRef } from 'react'
+import React, { useCallback, useMemo, useState, useRef, useEffect } from 'react'
 import { GridContext, IGridContext, IGridItem } from './context'
+import { canGridSupport } from './utils'
 
 export interface IComponentProps {
   row?: number
@@ -26,6 +27,7 @@ function GridContainer({ row, col, style, itemStyle, legacy, className, children
   const itemsRef = useRef<IGridItem[]>([])
   const [maxRow, setMaxRow] = useState(0)
   const [maxCol, setMaxCol] = useState(0)
+  const [legacyRender, setLegacyRender] = useState(legacy ?? !canGridSupport())
 
   const handleResize = useCallback((res: IGridItem) => {
     const idx = itemsRef.current.findIndex(i => i.ref?.current === res.ref?.current)
@@ -65,11 +67,11 @@ function GridContainer({ row, col, style, itemStyle, legacy, className, children
   }, [row, col, maxRow, maxCol])
 
   const context = useMemo<IGridContext>(() => {
-    return { itemStyle, row: computedGrid.row, col: computedGrid.col, legacy, onResize: handleResize }
-  }, [itemStyle, computedGrid.row, computedGrid.col, legacy, handleResize])
+    return { itemStyle, row: computedGrid.row, col: computedGrid.col, legacy: legacyRender, onResize: handleResize }
+  }, [itemStyle, computedGrid.row, computedGrid.col, legacyRender, handleResize])
 
   const gridStyle = useMemo<React.CSSProperties>(() => {
-    if (legacy) {
+    if (legacyRender) {
       return {
         position: 'relative',
         boxSizing: 'border-box',
@@ -85,7 +87,14 @@ function GridContainer({ row, col, style, itemStyle, legacy, className, children
       gridTemplateRows: `repeat(${computedGrid.row}, 1fr)`,
       ...style,
     }
-  }, [computedGrid.col, computedGrid.row, legacy, style])
+  }, [computedGrid.col, computedGrid.row, legacyRender, style])
+
+  useEffect(() => {
+    if (typeof legacy === 'undefined') {
+      return
+    }
+    setLegacyRender(legacy)
+  }, [legacy])
 
   return (
     <GridContext.Provider value={context}>
