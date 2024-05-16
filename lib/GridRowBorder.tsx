@@ -47,7 +47,7 @@ function GridRowBorder({ showInner = true, showOuter = true, lineColor = 'gray',
   }
   return (
     <GridContext.Provider value={{ row, col, legacy }}>
-      {showOuter ? result : null}
+      {showOuter || showInner ? result : null}
     </GridContext.Provider>
   )
 }
