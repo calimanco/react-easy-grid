@@ -1,6 +1,7 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import pkg from './package.json'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -9,9 +10,9 @@ export default defineConfig({
     lib: {
       // Could also be a dictionary or array of multiple entry points
       entry: resolve(__dirname, 'lib/main.ts'),
-      name: 'react-easy-grid',
+      name: pkg.name,
       // the proper extensions will be added
-      fileName: 'react-easy-grid',
+      fileName: pkg.name,
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
