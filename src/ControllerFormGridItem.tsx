@@ -1,7 +1,6 @@
 import {
   Button,
-  ColorPicker,
-  Flex,
+  Space,
   InputNumber,
   Popover,
   Form,
@@ -11,6 +10,7 @@ import {
   type FormListFieldData,
 } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
+import ColorItem from './ColorItem'
 
 const directionOptions = [
   {
@@ -30,12 +30,15 @@ interface IComponentProps {
   onRemove?: (index: number | number[]) => void
 }
 
+/**
+ * 表格项
+ */
 function ControllerFormGridItem({ field, type = 'item', onRemove }: IComponentProps) {
   return (
-    <Flex align="center" style={{ marginBottom: '10px' }} justify="space-between">
+    <Space align="center" style={{ marginBottom: '10px', width: '100%', justifyContent: 'space-between' }}>
       <span>{field.name}</span>
       <Form.Item name={[field.name, 'color']} style={{ marginBottom: 0 }}>
-        <ColorPicker disabledAlpha />
+        <ColorItem />
       </Form.Item>
       {type === 'divider' && (
         <Form.Item name={[field.name, 'direction']} style={{ marginBottom: 0 }}>
@@ -43,7 +46,7 @@ function ControllerFormGridItem({ field, type = 'item', onRemove }: IComponentPr
         </Form.Item>
       )}
       <Popover
-        forceRender
+        destroyTooltipOnHide={false}
         placement="right"
         content={() => {
           return (
@@ -68,7 +71,7 @@ function ControllerFormGridItem({ field, type = 'item', onRemove }: IComponentPr
           onRemove?.(field.name)
         }}
       />
-    </Flex>
+    </Space>
   )
 }
 
@@ -77,17 +80,16 @@ function TypeItem({ value, onChange, field }: { field: FormListFieldData, value?
     <Tabs
       size="small"
       style={{ width: '100%' }}
-      destroyInactiveTabPane
       items={[
         {
           key: 'endpoint',
           label: '设置结束点',
           children: (
             <div>
-              <Form.Item name={[field.name, 'endR']} label="结束行" preserve={false}>
+              <Form.Item name={[field.name, 'endR']} label="结束行">
                 <InputNumber min={1} />
               </Form.Item>
-              <Form.Item name={[field.name, 'endC']} label="结束列" preserve={false}>
+              <Form.Item name={[field.name, 'endC']} label="结束列">
                 <InputNumber min={1} />
               </Form.Item>
             </div>
@@ -98,18 +100,21 @@ function TypeItem({ value, onChange, field }: { field: FormListFieldData, value?
           label: '设置跨区',
           children: (
             <div>
-              <Form.Item name={[field.name, 'spanR']} label="跨行" preserve={false}>
-                <InputNumber />
+              <Form.Item name={[field.name, 'spanR']} label="跨行">
+                <InputNumber min={1} />
               </Form.Item>
-              <Form.Item name={[field.name, 'spanC']} label="跨列" preserve={false}>
-                <InputNumber />
+              <Form.Item name={[field.name, 'spanC']} label="跨列">
+                <InputNumber min={1} />
               </Form.Item>
             </div>
           ),
         },
       ]}
       activeKey={value}
-      onChange={onChange}
+      onTabClick={(res) => {
+        console.log(res)
+        onChange?.(res)
+      }}
     />
   )
 }

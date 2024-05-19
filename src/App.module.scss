@@ -7,6 +7,7 @@
   margin-bottom: 20px;
   font-weight: bold;
   flex-shrink: 0;
+  width: 100%
 }
 
 .logo {
@@ -63,3 +64,19 @@
 .formCard {
   margin-bottom: 10px;
 }
+
+.ColorItem {
+  padding: 5px;
+  background: #fff;
+  border-radius: 1px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.1);
+  display: inline-block;
+  cursor: pointer;
+
+  &__color {
+    width: 30px;
+    height: 15px;
+    border-radius: 2px
+  }
+}
+

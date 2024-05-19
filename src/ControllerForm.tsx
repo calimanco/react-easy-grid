@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { Button, Card, Form, InputNumber, Slider, Switch, type FormInstance } from 'antd'
 import ControllerFormGridItem from './ControllerFormGridItem.tsx'
-import styles from './App.module.css'
+import styles from './App.module.scss'
 
 interface IComponentProps {
   form: FormInstance
@@ -9,6 +9,9 @@ interface IComponentProps {
   className?: string
 }
 
+/**
+ * 表单
+ */
 function ControllerForm({ form, style, className }: IComponentProps) {
   const initialValues = useMemo(() => {
     return {
@@ -61,7 +64,7 @@ function ControllerForm({ form, style, className }: IComponentProps) {
           color: 'lime',
         },
       ],
-      gutters: [
+      dividers: [
         {
           type: 'span',
           startR: 6,
@@ -85,7 +88,7 @@ function ControllerForm({ form, style, className }: IComponentProps) {
   }, [])
 
   return (
-    <Form form={form} initialValues={initialValues} preserve={false} style={style} className={className}>
+    <Form form={form} initialValues={initialValues} preserve style={style} className={className}>
       <Form.Item name="legacy" label="降级渲染">
         <Switch />
       </Form.Item>
@@ -132,7 +135,7 @@ function ControllerForm({ form, style, className }: IComponentProps) {
         </Form.List>
       </Card>
       <Card title="GridDivider" size="small" type="inner" className={styles.formCard}>
-        <Form.List name="gutters">
+        <Form.List name="dividers">
           {(fields, { add, remove }) => {
             return (
               <>

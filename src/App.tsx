@@ -1,25 +1,24 @@
-import { Layout, Form, Flex, type ColorPickerProps } from 'antd'
-import styles from './App.module.css'
+import 'antd/dist/antd.css'
+import { Layout, Form, Space } from 'antd'
+import styles from './App.module.scss'
 import reactLogo from './assets/react.svg'
 import { GridContainer, GridItem, GridDivider, GridAxios, GridBorder } from '../lib/main'
 import ControllerForm from './ControllerForm'
 import { useMemo } from 'react'
 
-type Color = ColorPickerProps['value']
-
 interface IItem {
   startR: number
   startC: number
-  color: Color
+  color: string
+  type: 'endpoint' | 'span'
   endR?: number
   endC?: number
   spanR?: number
   spanC?: number
 }
 
-interface IGutter extends IItem {
+interface IDivider extends IItem {
   direction: 'vertical' | 'horizontal'
-  span?: number
   lineWidth?: number
 }
 
@@ -33,7 +32,7 @@ function App() {
   const formBorder = Form.useWatch('border', form)
   const formShowAxios = Form.useWatch('showAxios', form)
   const formItems: IItem[] = Form.useWatch('items', form)
-  const formGutters: IGutter[] = Form.useWatch('gutters', form)
+  const formDividers: IDivider[] = Form.useWatch('dividers', form)
 
   const gridContainerStyle = useMemo(() => {
     return { width: `${formWidth}%`, height: `${formHeight}%`, background: '#fff' }
@@ -59,10 +58,10 @@ function App() {
       </a>
       <Layout.Sider theme="light" width={250}>
         <div className={styles.sider}>
-          <Flex align="center" className={styles.title}>
+          <Space align="center" className={styles.title}>
             <img className={styles.logo} src={reactLogo} alt="logo" />
             <span>react-easy-grid</span>
-          </Flex>
+          </Space>
           <ControllerForm form={form} className={styles.form} />
         </div>
       </Layout.Sider>
@@ -76,15 +75,15 @@ function App() {
         >
           {formBorder && <GridBorder showInner={formBorder.inner} showOuter={formBorder.outer} lineWidth={`${formBorder.width}px`} />}
           {formShowAxios && <GridAxios />}
-          {formGutters?.map((item, index) => {
+          {formDividers?.map((item, index) => {
             return (
               <GridDivider
-                key={index}
+                key={`divider-${index}`}
                 start={`r${item.startR}c${item.startC}`}
-                end={(item.endC && item.endR) ? [item.endC, item.endR] : null}
-                span={[item.spanR ?? 1, item.spanC ?? 1]}
+                end={item.type === 'endpoint' && item.endR && item.endC ? [item.endR, item.endC] : null}
+                span={item.type === 'span' ? [item.spanR ?? 1, item.spanC ?? 1] : undefined}
                 direction={item.direction}
-                lineColor={typeof item.color === 'string' ? item.color : item?.color?.toHexString()}
+                lineColor={item?.color}
                 lineWidth={item.lineWidth ? `${item.lineWidth}px` : undefined}
               />
             )
@@ -92,14 +91,14 @@ function App() {
           {formItems?.map((item, index) => {
             return (
               <GridItem
-                key={index}
+                key={`item-${index}`}
                 start={`r${item.startR}c${item.startC}`}
-                end={(item.endR && item.endC) ? [item.endR, item.endC] : null}
-                span={[item.spanR ?? 1, item.spanC ?? 1]}
+                end={item.type === 'endpoint' && item.endR && item.endC ? [item.endR, item.endC] : null}
+                span={item.type === 'span' ? [item.spanR ?? 1, item.spanC ?? 1] : undefined}
               >
                 <div
                   className={styles.item}
-                  style={{ backgroundColor: typeof item.color === 'string' ? item.color : item?.color?.toHexString() }}
+                  style={{ backgroundColor: item?.color }}
                 >
                   {index}
                 </div>
