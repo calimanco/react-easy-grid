@@ -15,6 +15,7 @@ interface IItem {
   endC?: number
   spanR?: number
   spanC?: number
+  span?: number
 }
 
 interface IDivider extends IItem {
@@ -56,7 +57,7 @@ function App() {
           alt="forkMe"
         />
       </a>
-      <Layout.Sider theme="light" width={250}>
+      <Layout.Sider theme="light" width={300}>
         <div className={styles.sider}>
           <Space align="center" className={styles.title}>
             <img className={styles.logo} src={reactLogo} alt="logo" />
@@ -81,7 +82,7 @@ function App() {
                 key={`divider-${index}`}
                 start={`r${item.startR}c${item.startC}`}
                 end={item.type === 'endpoint' && item.endR && item.endC ? [item.endR, item.endC] : null}
-                span={item.type === 'span' ? [item.spanR ?? 1, item.spanC ?? 1] : undefined}
+                span={item.span}
                 direction={item.direction}
                 lineColor={item?.color}
                 lineWidth={item.lineWidth ? `${item.lineWidth}px` : undefined}

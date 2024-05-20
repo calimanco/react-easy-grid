@@ -3,6 +3,7 @@ import GridItem, { IComponentProps as IGridItemProps } from './GridItem'
 
 interface IComponentProps extends IGridItemProps {
   direction: 'horizontal' | 'vertical'
+  span?: number
   lineColor?: string
   lineStyle?: string
   lineWidth?: string
@@ -16,7 +17,7 @@ interface IComponentProps extends IGridItemProps {
  * @param props.direction 方向
  * @param props.lineColor 分割线颜色
  */
-function GridDivider({ start, direction = 'horizontal', lineColor = 'gray', lineStyle = 'solid', lineWidth = '1px', ...leftProps }: IComponentProps) {
+function GridDivider({ start, direction = 'horizontal', span = 1, lineColor = 'gray', lineStyle = 'solid', lineWidth = '1px', ...leftProps }: IComponentProps) {
   const computedStyle = useMemo<React.CSSProperties>(() => {
     return {
       position: 'absolute',
@@ -33,6 +34,7 @@ function GridDivider({ start, direction = 'horizontal', lineColor = 'gray', line
   return (
     <GridItem
       start={start}
+      span={direction === 'vertical' ? [span, 1] : [1, span]}
       {...leftProps}
     >
       <div style={computedStyle} />

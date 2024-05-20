@@ -69,8 +69,7 @@ function ControllerForm({ form, style, className }: IComponentProps) {
           type: 'span',
           startR: 6,
           startC: 1,
-          spanR: 1,
-          spanC: 11,
+          span: 11,
           direction: 'horizontal',
           color: 'gray',
         },
@@ -78,8 +77,7 @@ function ControllerForm({ form, style, className }: IComponentProps) {
           type: 'span',
           startR: 1,
           startC: 6,
-          spanR: 11,
-          spanC: 1,
+          span: 11,
           direction: 'vertical',
           color: '#ccc',
         },
@@ -118,22 +116,6 @@ function ControllerForm({ form, style, className }: IComponentProps) {
           <InputNumber min={1} />
         </Form.Item>
       </Card>
-      <Card title="GridItem" size="small" type="inner" className={styles.formCard}>
-        <Form.List name="items">
-          {(fields, { add, remove }) => {
-            return (
-              <>
-                {fields.map((field, index) => {
-                  return (
-                    <ControllerFormGridItem key={index} form={form} field={field} onRemove={remove} />
-                  )
-                })}
-                <Button block onClick={() => add({ startR: 1, startC: 1, type: 'endpoint', endR: 1, endC: 1, color: '#000' })}>增加GridItem</Button>
-              </>
-            )
-          }}
-        </Form.List>
-      </Card>
       <Card title="GridDivider" size="small" type="inner" className={styles.formCard}>
         <Form.List name="dividers">
           {(fields, { add, remove }) => {
@@ -141,10 +123,26 @@ function ControllerForm({ form, style, className }: IComponentProps) {
               <>
                 {fields.map((field, index) => {
                   return (
-                    <ControllerFormGridItem key={index} form={form} field={field} onRemove={remove} />
+                    <ControllerFormGridItem mode="divider" key={index} field={field} onRemove={remove} />
                   )
                 })}
-                <Button block onClick={() => add({ startR: 1, startC: 1, type: 'span', direction: 'horizontal', spanR: 1, spanC: 1, color: '#000' })}>增加GridItem</Button>
+                <Button block onClick={() => add({ startR: 1, startC: 1, type: 'span', direction: 'horizontal', span: 1, color: '#000' })}>增加GridItem</Button>
+              </>
+            )
+          }}
+        </Form.List>
+      </Card>
+      <Card title="GridItem" size="small" type="inner" className={styles.formCard}>
+        <Form.List name="items">
+          {(fields, { add, remove }) => {
+            return (
+              <>
+                {fields.map((field, index) => {
+                  return (
+                    <ControllerFormGridItem mode="item" key={index} field={field} onRemove={remove} />
+                  )
+                })}
+                <Button block onClick={() => add({ startR: 1, startC: 1, type: 'endpoint', endR: 1, endC: 1, color: '#000' })}>增加GridItem</Button>
               </>
             )
           }}

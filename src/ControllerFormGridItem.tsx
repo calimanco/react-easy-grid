@@ -1,16 +1,14 @@
 import {
   Button,
-  Space,
   InputNumber,
   Popover,
   Form,
-  Tabs,
   Select,
-  type FormInstance,
   type FormListFieldData,
 } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import ColorItem from './ColorItem'
+import styles from './App.module.scss'
 
 const directionOptions = [
   {
@@ -23,24 +21,40 @@ const directionOptions = [
   },
 ]
 
+const endTypeOptions = [
+  {
+    label: '设结束点',
+    value: 'endpoint',
+  },
+  {
+    label: '设跨区数',
+    value: 'span',
+  },
+]
+
 interface IComponentProps {
-  form: FormInstance
   field: FormListFieldData
-  type?: 'item' | 'divider'
+  mode?: 'item' | 'divider'
   onRemove?: (index: number | number[]) => void
 }
 
 /**
  * 表格项
  */
-function ControllerFormGridItem({ field, type = 'item', onRemove }: IComponentProps) {
+function ControllerFormGridItem({ field, mode = 'item', onRemove }: IComponentProps) {
+  const form = Form.useFormInstance()
+  const endType = Form.useWatch([`${mode}s`, field.name, 'type'], form)
+
   return (
-    <Space align="center" style={{ marginBottom: '10px', width: '100%', justifyContent: 'space-between' }}>
-      <span>{field.name}</span>
+    <div className={styles.ControllerFormGridItem}>
+      <div>{field.name}</div>
       <Form.Item name={[field.name, 'color']} style={{ marginBottom: 0 }}>
         <ColorItem />
       </Form.Item>
-      {type === 'divider' && (
+      <Form.Item name={[field.name, 'type']} style={{ marginBottom: 0 }} hidden={mode === 'divider'}>
+        <Select options={endTypeOptions} />
+      </Form.Item>
+      {mode === 'divider' && (
         <Form.Item name={[field.name, 'direction']} style={{ marginBottom: 0 }}>
           <Select options={directionOptions} />
         </Form.Item>
@@ -57,9 +71,35 @@ function ControllerFormGridItem({ field, type = 'item', onRemove }: IComponentPr
               <Form.Item name={[field.name, 'startC']} label="开始列">
                 <InputNumber min={1} />
               </Form.Item>
-              <Form.Item name={[field.name, 'type']} noStyle>
-                <TypeItem field={field} />
-              </Form.Item>
+              {mode === 'divider' && (
+                <Form.Item name={[field.name, 'span']} label="跨区数">
+                  <InputNumber min={1} />
+                </Form.Item>
+              )}
+              {mode === 'item' && (
+                <>
+                  {endType === 'endpoint' && (
+                    <>
+                      <Form.Item name={[field.name, 'endR']} label="结束行">
+                        <InputNumber min={1} />
+                      </Form.Item>
+                      <Form.Item name={[field.name, 'endC']} label="结束列">
+                        <InputNumber min={1} />
+                      </Form.Item>
+                    </>
+                  )}
+                  {endType === 'span' && (
+                    <>
+                      <Form.Item name={[field.name, 'spanR']} label="跨行">
+                        <InputNumber min={1} />
+                      </Form.Item>
+                      <Form.Item name={[field.name, 'spanC']} label="跨列">
+                        <InputNumber min={1} />
+                      </Form.Item>
+                    </>
+                  )}
+                </>
+              )}
             </>
           )
         }}
@@ -71,51 +111,7 @@ function ControllerFormGridItem({ field, type = 'item', onRemove }: IComponentPr
           onRemove?.(field.name)
         }}
       />
-    </Space>
-  )
-}
-
-function TypeItem({ value, onChange, field }: { field: FormListFieldData, value?: string, onChange?: (res: string) => void }) {
-  return (
-    <Tabs
-      size="small"
-      style={{ width: '100%' }}
-      items={[
-        {
-          key: 'endpoint',
-          label: '设置结束点',
-          children: (
-            <div>
-              <Form.Item name={[field.name, 'endR']} label="结束行">
-                <InputNumber min={1} />
-              </Form.Item>
-              <Form.Item name={[field.name, 'endC']} label="结束列">
-                <InputNumber min={1} />
-              </Form.Item>
-            </div>
-          ),
-        },
-        {
-          key: 'span',
-          label: '设置跨区',
-          children: (
-            <div>
-              <Form.Item name={[field.name, 'spanR']} label="跨行">
-                <InputNumber min={1} />
-              </Form.Item>
-              <Form.Item name={[field.name, 'spanC']} label="跨列">
-                <InputNumber min={1} />
-              </Form.Item>
-            </div>
-          ),
-        },
-      ]}
-      activeKey={value}
-      onTabClick={(res) => {
-        console.log(res)
-        onChange?.(res)
-      }}
-    />
+    </div>
   )
 }
 

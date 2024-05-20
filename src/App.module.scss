@@ -70,13 +70,19 @@
   background: #fff;
   border-radius: 1px;
   box-shadow: 0 0 0 1px rgba(0,0,0,.1);
-  display: inline-block;
   cursor: pointer;
 
   &__color {
     width: 30px;
     height: 15px;
-    border-radius: 2px
+    border-radius: 2px;
   }
+}
+
+.ControllerFormGridItem {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
