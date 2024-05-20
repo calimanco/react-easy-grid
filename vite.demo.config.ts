@@ -9,7 +9,7 @@ export default defineConfig({
   plugins: [
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     legacy({
-      targets: ['defaults'],
+      targets: ['defaults', 'IE 11'],
     }),
   ],
   build: {
