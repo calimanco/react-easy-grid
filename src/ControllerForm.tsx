@@ -128,7 +128,7 @@ function ControllerForm({ form, style, className }: IComponentProps) {
                     <ControllerFormGridItem key={index} form={form} field={field} onRemove={remove} />
                   )
                 })}
-                <Button block onClick={() => add({ startR: 1, startC: 1 })}>增加GridItem</Button>
+                <Button block onClick={() => add({ startR: 1, startC: 1, type: 'endpoint', endR: 1, endC: 1, color: '#000' })}>增加GridItem</Button>
               </>
             )
           }}
@@ -144,7 +144,7 @@ function ControllerForm({ form, style, className }: IComponentProps) {
                     <ControllerFormGridItem key={index} form={form} field={field} onRemove={remove} />
                   )
                 })}
-                <Button block onClick={() => add({ startR: 1, startC: 1, direction: 'horizontal', span: 1 })}>增加GridItem</Button>
+                <Button block onClick={() => add({ startR: 1, startC: 1, type: 'span', direction: 'horizontal', spanR: 1, spanC: 1, color: '#000' })}>增加GridItem</Button>
               </>
             )
           }}
