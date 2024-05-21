@@ -7,7 +7,6 @@ export default defineConfig({
   ...baseConfig,
   base: `/${pkg.name}/`,
   plugins: [
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     legacy({
       targets: ['defaults', 'IE 11'],
     }),
