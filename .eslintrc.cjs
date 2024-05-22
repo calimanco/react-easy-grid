@@ -20,7 +20,7 @@ module.exports = {
       { allowConstantExport: true },
     ],
     '@typescript-eslint/no-unsafe-member-access': 'off',
-    '@typescript-eslint/no-unsafe-assignment': 'off'
+    '@typescript-eslint/no-unsafe-assignment': 'off',
   },
   parserOptions: {
     ecmaVersion: 'latest',
@@ -32,6 +32,17 @@ module.exports = {
     {
       files: ['**/*.js'],
       extends: ['plugin:@typescript-eslint/disable-type-checked'],
+    },
+    {
+      files: ['**/*.md/*.js'],
+      extends: ['plugin:@typescript-eslint/disable-type-checked'],
+      rules: {
+        "no-console": "off",
+        "import/no-unresolved": "off",
+        'react/jsx-no-undef': 'off',
+        '@typescript-eslint/no-unused-vars': 'off',
+        'react/jsx-key': 'off'
+      }
     },
   ],
 }
