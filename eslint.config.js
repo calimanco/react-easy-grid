@@ -8,20 +8,6 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import markdown from "eslint-plugin-markdown";
 
 export default [
-  {
-    languageOptions: {
-      globals: {
-        ...globals.serviceworker,
-        ...globals.browser,
-      },
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-        project: true,
-        tsconfigRootDir: import.meta.dirname,
-      },
-    }
-  },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
@@ -42,6 +28,20 @@ export default [
     rules: {
       "react-refresh/only-export-components": "warn",
     },
+  },
+  {
+    languageOptions: {
+      globals: {
+        ...globals.serviceworker,
+        ...globals.browser,
+      },
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        project: ['./tsconfig.json', './tsconfig.node.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+    }
   },
   {
     files: ['**/*.js'],
