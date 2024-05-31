@@ -21,26 +21,43 @@ describe('GridContainer', () => {
   })
 
   test('auto grid', () => {
-    let wrapper = render(
+    const {container, rerender} = render(
       <GridContainer>
         <GridItem start="r5c5" end="r10c10" />
       </GridContainer>,
     )
 
-    expect(wrapper.container.firstChild).toHaveStyle({
+    expect(container.firstChild).toHaveStyle({
       gridTemplateColumns: `repeat(10, 1fr)`,
       gridTemplateRows: `repeat(10, 1fr)`,
     })
 
-    wrapper = render(
-      <GridContainer>
-        <GridItem start="r1c1" span={[5, 10]} />
-      </GridContainer>,
-    )
+    rerender(<GridContainer>
+      <GridItem start="r5c5" end="r10c10" />
+      <GridItem start="r1c1" end="r11c11" />
+    </GridContainer>)
 
-    expect(wrapper.container.firstChild).toHaveStyle({
-      gridTemplateColumns: `repeat(10, 1fr)`,
-      gridTemplateRows: `repeat(5, 1fr)`,
+    expect(container.firstChild).toHaveStyle({
+      gridTemplateColumns: `repeat(11, 1fr)`,
+      gridTemplateRows: `repeat(11, 1fr)`,
+    })
+
+    rerender(<GridContainer>
+      <GridItem start="r1c1" end="r11c11" />
+    </GridContainer>)
+
+    expect(container.firstChild).toHaveStyle({
+      gridTemplateColumns: `repeat(11, 1fr)`,
+      gridTemplateRows: `repeat(11, 1fr)`,
+    })
+
+    rerender(<GridContainer>
+      <GridItem start="" />
+    </GridContainer>)
+
+    expect(container.firstChild).toHaveStyle({
+      gridTemplateColumns: `repeat(11, 1fr)`,
+      gridTemplateRows: `repeat(11, 1fr)`,
     })
   })
 

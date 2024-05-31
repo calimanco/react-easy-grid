@@ -35,12 +35,7 @@ function GridContainer({ row, col, style, itemStyle, legacy, className, children
       itemsRef.current.push(res)
     }
     else {
-      if (res.start) {
-        itemsRef.current[idx] = res
-      }
-      else {
-        itemsRef.current.splice(idx, 1)
-      }
+      itemsRef.current[idx] = res
     }
     let maxRow = 0
     let maxCol = 0
