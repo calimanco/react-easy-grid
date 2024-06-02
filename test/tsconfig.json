@@ -10,9 +10,11 @@
     "declaration": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": true
   },
   "include": [
+    "**/**/*.js",
     "**/**/*.ts",
     "**/**/*.tsx",
   ],
