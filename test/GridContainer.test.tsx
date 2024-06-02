@@ -1,13 +1,13 @@
 import { expect, test, describe } from 'vitest'
 import { render } from '@testing-library/react'
-import GridContainer from './../lib/GridContainer.js'
-import GridItem from './../lib/GridItem.js'
+import {GridContainer, GridItem} from './../lib/main.js'
 import {testClassname, testStyle} from './common.test.js'
+import React from "react";
 
 describe('GridContainer', () => {
 
-  testStyle(GridContainer)
-  testClassname(GridContainer)
+  testStyle(GridContainer as React.FunctionComponent<any>)
+  testClassname(GridContainer as React.FunctionComponent<any>)
 
   test('basic', () => {
     const wrapper = render(

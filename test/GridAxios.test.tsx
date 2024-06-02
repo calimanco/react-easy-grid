@@ -1,7 +1,6 @@
 import { expect, test, describe } from 'vitest'
 import { render } from '@testing-library/react'
-import GridContainer from './../lib/GridContainer.js'
-import GridAxios from './../lib/GridAxios.js'
+import {GridContainer, GridAxios} from './../lib/main.js'
 
 describe('GridAxios', () => {
 
@@ -40,7 +39,23 @@ describe('GridAxios', () => {
       </GridContainer>,
     )
 
-    expect(container?.firstChild?.childNodes[0]?.childNodes.length).toEqual(5)
-    expect(container?.firstChild?.childNodes[1]?.childNodes.length).toEqual(10)
+    const [xNodes, yNodes] = Array.from(container?.firstChild?.childNodes ?? [])
+
+    expect(xNodes?.childNodes?.length).toEqual(5)
+
+    xNodes?.childNodes.forEach((node) => {
+      expect(node).toHaveStyle({
+        position: 'absolute',
+      })
+    })
+
+
+    expect(yNodes?.childNodes?.length).toEqual(10)
+
+    yNodes?.childNodes.forEach((node) => {
+      expect(node).toHaveStyle({
+        position: 'absolute',
+      })
+    })
   })
 })
