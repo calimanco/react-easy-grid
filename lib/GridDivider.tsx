@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import GridItem, { IComponentProps as IGridItemProps } from './GridItem'
 
-interface IComponentProps extends IGridItemProps {
+interface IComponentProps extends Omit<IGridItemProps, 'span'> {
   direction: 'horizontal' | 'vertical'
   span?: number
   lineColor?: string
