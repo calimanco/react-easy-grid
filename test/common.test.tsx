@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ComponentClass } from 'react'
 import { render } from '@testing-library/react'
-import {expect, test} from 'vitest'
+import { expect, test } from 'vitest'
 
 export function testStyle(component: string | FunctionComponent<any> | ComponentClass<any>) {
   test('style test', () => {
@@ -19,7 +19,7 @@ export function testStyle(component: string | FunctionComponent<any> | Component
 export function testClassname(component: string | FunctionComponent<any> | ComponentClass<any>) {
   test('className test', () => {
     const { container } = render(React.createElement(component, {
-      className: 'abc'
+      className: 'abc',
     }))
 
     expect(container.firstChild).not.toBeNull()
