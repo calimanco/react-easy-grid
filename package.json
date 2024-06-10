@@ -1,5 +1,5 @@
 {
-  "name": "@calimanco/react-easy-grid",
+  "name": "react-happy-grid",
   "version": "0.0.0",
   "description": "A react component easy for grid layout.",
   "keywords": [
@@ -12,18 +12,18 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/react-easy-grid.umd.cjs",
-  "module": "./dist/react-easy-grid.js",
+  "main": "./dist/react-happy-grid.umd.cjs",
+  "module": "./dist/react-happy-grid.js",
   "exports": {
     ".": {
-      "import": "./dist/react-easy-grid.js",
-      "require": "./dist/react-easy-grid.umd.cjs"
+      "import": "./dist/react-happy-grid.js",
+      "require": "./dist/react-happy-grid.umd.cjs"
     }
   },
   "author": "calimanco <calimanco@qq.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/calimanco/react-easy-grid.git"
+    "url": "git+https://github.com/calimanco/react-happy-grid.git"
   },
   "license": "MIT",
   "engines": {

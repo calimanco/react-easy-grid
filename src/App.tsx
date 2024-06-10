@@ -45,7 +45,7 @@ function App() {
 
   return (
     <Layout className={styles.layout}>
-      <a href="https://github.com/calimanco/react-easy-grid" target="_blank" rel="noreferrer">
+      <a href="https://github.com/calimanco/react-happy-grid" target="_blank" rel="noreferrer">
         <img
           decoding="async"
           width="140"
@@ -61,7 +61,7 @@ function App() {
         <div className={styles.sider}>
           <Space align="center" className={styles.title}>
             <img className={styles.logo} src={reactLogo} alt="logo" />
-            <span>react-easy-grid</span>
+            <span>react-happy-grid</span>
           </Space>
           <ControllerForm form={form} className={styles.form} />
         </div>

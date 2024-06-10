@@ -1,9 +1,9 @@
-# react-easy-grid
+# react-happy-grid
 
 A React component easy for grid layout.  
 一个易于网格布局（格栅）的 React 组件。
 
-[Playground](https://calimanco.github.io/react-easy-grid/)  
+[Playground](https://calimanco.github.io/react-happy-grid/)  
 Playground 已经编译为 ES2015，会自动加载 polyfill，可在旧浏览器（如 IE11）使用。
 
 ## 特性
@@ -25,13 +25,13 @@ Playground 已经编译为 ES2015，会自动加载 polyfill，可在旧浏览�
 ## 安装
 
 ```bash
-npm install react-easy-grid --save
+npm install react-happy-grid --save
 ```
 
 ## 使用
 
 ```javascript
-import { GridContainer, GridItem } from 'react-easy-grid'
+import { GridContainer, GridItem } from 'react-happy-grid'
 
 const gridContainerStyle = { width: `100%`, height: `100%`, background: '#fff' }
 
