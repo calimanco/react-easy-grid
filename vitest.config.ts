@@ -10,6 +10,7 @@ export default defineConfig({
     exclude: ['test/common.test.tsx'],
     coverage: {
       include: ['lib'],
+      reporter: ['text', 'lcov'],
     },
   },
 })
