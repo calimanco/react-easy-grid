@@ -1,5 +1,5 @@
 {
-  "name": "react-easy-grid",
+  "name": "@calimanco/react-easy-grid",
   "version": "0.0.0",
   "description": "A react component easy for grid layout.",
   "keywords": [
@@ -23,7 +23,7 @@
   "author": "calimanco <calimanco@qq.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/calimanco/react-easy-grid"
+    "url": "git+https://github.com/calimanco/react-easy-grid.git"
   },
   "license": "MIT",
   "engines": {
