@@ -41,7 +41,6 @@ function GridItem({ start, end, span = 1, style, className, children }: ICompone
   }, [JSON.stringify(start)])
 
   const endP = useMemo(() => {
-    console.log(end)
     if (end) {
       let result: number[] | null = null
       if (typeof end === 'string') {
