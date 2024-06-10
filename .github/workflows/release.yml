@@ -8,6 +8,11 @@ on:
 permissions:
   contents: read # for checkout
 
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  COVERALLS_REPO_TOKEN: ${{secrets.COVERALLS_REPO_TOKEN}}
+
 jobs:
   release:
     name: Release
@@ -28,12 +33,6 @@ jobs:
           node-version: 20
           cache: 'npm'
       - name: Install dependencies
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          COVERALLS_REPO_TOKEN: ${{secrets.COVERALLS_REPO_TOKEN}}
-          COVERALLS_SERVICE_NAME: 'GitAction'
-          COVERALLS_GIT_BRANCH: 'main'
         run: npm ci
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
         run: npm audit signatures
