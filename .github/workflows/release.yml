@@ -32,13 +32,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           COVERALLS_REPO_TOKEN: ${{secrets.COVERALLS_REPO_TOKEN}}
+          COVERALLS_SERVICE_NAME: 'GitAction'
+          COVERALLS_GIT_BRANCH: 'main'
         run: npm ci
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
         run: npm audit signatures
       - name: Test
         run: npm run coverage
       - name: Coveralls
-        run: npm run report-coverage
+        uses: coverallsapp/github-action@v2
       - name: Build
         run: npm run build
       - name: Release
