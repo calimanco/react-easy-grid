@@ -23,6 +23,7 @@
     "prepare": "husky",
     "commitlint": "commitlint --edit",
     "coverage": "vitest run --coverage",
+    "report-coverage": "./coverage/lcov.info | coveralls",
     "test": "vitest",
     "test:ui": "vitest --ui"
   },
@@ -49,6 +50,7 @@
     "@vitejs/plugin-react": "^4.2.1",
     "@vitest/coverage-v8": "^1.6.0",
     "@vitest/ui": "^1.6.0",
+    "coveralls": "^3.1.1",
     "eslint": "^8.57.0",
     "eslint-plugin-markdown": "^5.0.0",
     "eslint-plugin-react": "^7.34.1",
