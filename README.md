@@ -1,17 +1,19 @@
 # react-happy-grid
 
+[![Coverage Status](https://coveralls.io/repos/github/calimanco/react-happy-grid/badge.svg?branch=main)](https://coveralls.io/github/calimanco/react-happy-grid?branch=main)
+
 A React component easy for grid layout.  
 一个易于网格布局（格栅）的 React 组件。
 
 [Playground](https://calimanco.github.io/react-happy-grid/)  
-Playground 已经编译为 ES2015，会自动加载 polyfill，可在旧浏览器（如 IE11）使用。
+已经编译为 ES2015，会自动加载 polyfill，可在旧浏览器（如 IE11）使用。
 
 ## 特性
 
 - 基于现代浏览器的 CSS Grid 构建，结合“固定格数的格栅系统”（如 BootStrap）的优点，提供更加简单友好的接口；
 - 可根据子级的坐标自动扩展网格；
 - 自动降级渲染，在不支持 CSS Grid 的浏览器上用“绝对定位布局”提供相同地表现；
-- 支持 React 16.8+（推荐 17+），惰性更新，高性能；
+- 支持 React 16.8+（推荐 17+），惰性更新，高性能，充分单测；
 - 内置边框、坐标等辅助组件，可方便调试。
 
 ## 与 CSS Grid 的差异
