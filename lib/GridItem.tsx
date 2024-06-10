@@ -25,7 +25,6 @@ export interface IComponentProps {
 function GridItem({ start, end, span = 1, style, className, children }: IComponentProps) {
   const { row, col, legacy, itemStyle: contextStyle, onResize } = useContext(GridContext)
   const itemRef = useRef(null)
-  const hasReady = useRef(false)
 
   const startP = useMemo(() => {
     let result: number[] | null = null
@@ -42,6 +41,7 @@ function GridItem({ start, end, span = 1, style, className, children }: ICompone
   }, [JSON.stringify(start)])
 
   const endP = useMemo(() => {
+    console.log(end)
     if (end) {
       let result: number[] | null = null
       if (typeof end === 'string') {
@@ -74,7 +74,10 @@ function GridItem({ start, end, span = 1, style, className, children }: ICompone
   }, [JSON.stringify(end), JSON.stringify(span), startP])
 
   const itemStyle = useMemo<React.CSSProperties>(() => {
-    if (legacy && startP) {
+    if (!startP) {
+      return { ...contextStyle, ...style }
+    }
+    if (legacy) {
       const unitR = 100 / row
       const unitC = 100 / col
       const offsetX = (endP ? Math.min(startP[1], endP[1]) : startP[1]) - 1
@@ -94,13 +97,15 @@ function GridItem({ start, end, span = 1, style, className, children }: ICompone
       }
     }
     const result = []
-    if (startP) {
-      result.push(endP ? Math.min(startP[0], endP[0]) : startP[0])
-      result.push(endP ? Math.min(startP[1], endP[1]) : startP[1])
-    }
-    if (startP && endP) {
+    result.push(endP ? Math.min(startP[0], endP[0]) : startP[0])
+    result.push(endP ? Math.min(startP[1], endP[1]) : startP[1])
+    if (endP) {
       result.push(Math.max(startP[0], endP[0]) + 1)
       result.push(Math.max(startP[1], endP[1]) + 1)
+    }
+    else {
+      result.push(result[0] + 1)
+      result.push(result[1] + 1)
     }
     return {
       ...contextStyle,
@@ -121,10 +126,6 @@ function GridItem({ start, end, span = 1, style, className, children }: ICompone
   }, [endP, onResize, startP])
 
   useEffect(() => {
-    if (!hasReady.current) {
-      hasReady.current = true
-      return
-    }
     return () => {
       onResize?.({
         start: null,
