@@ -16,7 +16,12 @@ export default defineConfig({
       entry: resolve(__dirname, 'lib/main.ts'),
       name: pkg.name,
       // the proper extensions will be added
-      fileName: pkg.name,
+      fileName: (format) => {
+        if (format === 'es') {
+          return 'main.js'
+        }
+        return `${pkg.name}.umd.cjs`
+      },
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖

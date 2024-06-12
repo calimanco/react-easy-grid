@@ -13,11 +13,11 @@
     "dist"
   ],
   "main": "./dist/react-happy-grid.umd.cjs",
-  "module": "./dist/react-happy-grid.js",
+  "module": "./dist/main.js",
   "typings": "./dist/types/main.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/react-happy-grid.js",
+      "import": "./dist/main.js",
       "require": "./dist/react-happy-grid.umd.cjs"
     }
   },
