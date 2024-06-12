@@ -45,9 +45,9 @@
     "test": "vitest",
     "test:ui": "vitest --ui"
   },
-  "dependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
